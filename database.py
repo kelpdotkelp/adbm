@@ -1,3 +1,12 @@
+"""
+adbm
+
+Interface with MongoDB, loads JSON files,
+and inserts them into a database.
+
+Noah Stieler, 2023
+"""
+
 import pymongo
 import os
 import json
@@ -8,17 +17,14 @@ db_name = ''
 serverSelectionTimeoutMS = 1000
 
 
-# TODO prevent docs from being added with duplicate dates and times.
-# TODO indexing will speed up reads at the cost of write speed.
-
 def db_operation(func):
     def wrapped(*args, **kwargs):
         return_val = None
         try:
             return_val = func(*args, **kwargs)
         except pymongo.errors.ConnectionFailure as e:
-            # TODO handle this properly.
-            print('Database error.')
+            print(e)
+            exit()
 
         return return_val
 
